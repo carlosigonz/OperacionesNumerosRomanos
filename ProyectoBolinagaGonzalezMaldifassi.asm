@@ -1,6 +1,6 @@
 .data
 	separador: .asciiz "\n-------------------------------------------------------------------------------------------------------------------\n"
-	saludo: .asciiz  "Bienvenido a operaciones algebraicas con números romanos!\n"
+	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!\n"
 	menu: .asciiz "Seleccione: \n1.Suma\n2.Resta\n3.Multiplicación\n"
 	msjSuma: .asciiz "\nSuma\n"
 	msjResta: .asciiz "\nResta\n"
@@ -13,27 +13,25 @@
 	msj2: .asciiz "\nEl segundo número es: "
 	resultado: .asciiz "El resultado de la operación es: "
 	
-	.macro separacion()
+	.macro separacion
 	li $v0,4
 	la $a0, separador
+	syscall
+	.end_macro
+	
+	.macro printMsj(%label)
+	li $v0,4
+	la $a0,%label
 	syscall
 	.end_macro 
 .text
 	#imprime saludo
-	li $v0,4
-	la $a0, saludo
-	syscall
+	printMsj(saludo)
 	
-	separacion()
-	#imprime separacion
-	#li $v0,4
-	#la $a0, separador
-	#syscall
+	separacion
 	
 	#imprime menu
-	li $v0,4
-	la $a0, menu
-	syscall
+	printMsj(menu)
 	
 	#Recibir seleccion
 	li $v0,5
@@ -46,27 +44,19 @@
 	
 	suma:
 		#imprime msj
-		li $v0,4
-		la $a0, msjSuma
-		syscall
+		printMsj(msjSuma)
 		b final
 		
 	resta:
 		#imprime msj
-		li $v0,4
-		la $a0, msjResta
-		syscall
+		printMsj(msjResta)
 		b final
 	multi:
 		#imprime msj
-		li $v0,4
-		la $a0, msjMulti
-		syscall
+		printMsj(msjMulti)
 	final:
 		#imprime mensaje de entrada pri-num
-		li $v0,4
-		la $a0, entrada1
-		syscall
+		printMsj(entrada1)
 		
 		#toma el pri-num
 		li $v0,8
@@ -75,45 +65,33 @@
 		syscall
 	
 		#imprime mensaje de entrada sec-num
-		li $v0,4
-		la $a0, entrada2
-		syscall
-	
+		printMsj(entrada2)
+
 		#toma el sec-num
 		li $v0,8
 		la $a0, numero2
 		li $a1,15
 		syscall
 	
-		separacion()
+		separacion
 	
 		#imprime mensaje de pri-num
-		li $v0,4
-		la $a0,msj1
-		syscall
+		printMsj(msj1)
 	
 		#imprime el pri-num
-		li $v0,4
-		la $a0, numero1
-		syscall
+		printMsj(numero1)
 	
 		#imprime mensaje de sec-num
-		li $v0,4
-		la $a0,msj2
-		syscall 
+		printMsj(msj2)
 	
 		#imprime el sec-num
-		li $v0,4
-		la $a0, numero2
-		syscall
+		printMsj(numero2)
 	
-		separacion()
+		separacion
 	
 		#imprime resultado
-		li $v0,4
-		la $a0, resultado
-		syscall
-	
+		printMsj(resultado)
+		
 		#fin del programa
 		li $v0,10
 		syscall	
