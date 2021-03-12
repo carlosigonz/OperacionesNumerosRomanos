@@ -1,7 +1,7 @@
 .data
 	separador: .asciiz "\n-------------------------------------------------------------------------------------------------------------------\n"
 	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!"
-	menu: .asciiz "Seleccione (Ingrese el número): \n1.Suma\n2.Resta\n3.Multiplicación\n"
+	menu: .asciiz "\nSeleccione operación (Ingrese el número): \n1.Suma (A+B)\n2.Resta (A-B)\n3.Multiplicación (A*B)\n"
 	msjSuma: .asciiz "\nSuma\n"
 	msjResta: .asciiz "\nResta\n"
 	msjMulti: .asciiz "\nMultiplicación\n"
@@ -9,8 +9,8 @@
 	entrada2: .asciiz "\nIngrese el segundo número Romano: "
 	numero1: .space 15
 	numero2: .space 15
-	msj1: .asciiz "El primer número es: "
-	msj2: .asciiz "\nEl segundo número es: "
+	msj1: .asciiz "El primer número (A) es: "
+	msj2: .asciiz "El segundo número (B) es: "
 	resultado: .asciiz "El resultado de la operación es: "
 	
 	.macro separacion
@@ -29,6 +29,36 @@
 	printMsj(saludo)
 	
 	separacion
+	#imprime mensaje de entrada pri-num
+	printMsj(entrada1)
+		#toma el pri-num
+	li $v0,8
+	la $a0, numero1
+	li $a1,15
+	syscall	
+	
+	#imprime mensaje de entrada sec-num
+	printMsj(entrada2)
+
+	#toma el sec-num
+	li $v0,8
+	la $a0, numero2
+	li $a1,15
+	syscall
+	
+	separacion
+	
+	#imprime mensaje de pri-num
+	printMsj(msj1)
+	
+	#imprime el pri-num
+	printMsj(numero1)
+	
+	#imprime mensaje de sec-num
+	printMsj(msj2)
+	
+	#imprime el sec-num
+	printMsj(numero2)
 	
 	#imprime menu
 	printMsj(menu)
@@ -54,37 +84,7 @@
 		#imprime msj
 		printMsj(msjMulti)
 	final:
-		#imprime mensaje de entrada pri-num
-		printMsj(entrada1)
 		
-		#toma el pri-num
-		li $v0,8
-		la $a0, numero1
-		li $a1,15
-		syscall
-	
-		#imprime mensaje de entrada sec-num
-		printMsj(entrada2)
-
-		#toma el sec-num
-		li $v0,8
-		la $a0, numero2
-		li $a1,15
-		syscall
-	
-		separacion
-	
-		#imprime mensaje de pri-num
-		printMsj(msj1)
-	
-		#imprime el pri-num
-		printMsj(numero1)
-	
-		#imprime mensaje de sec-num
-		printMsj(msj2)
-	
-		#imprime el sec-num
-		printMsj(numero2)
 	
 		separacion
 	
