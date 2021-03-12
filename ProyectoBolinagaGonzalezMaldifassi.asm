@@ -54,6 +54,7 @@
 	regreso1:
 	addi $t0,$t0,1
 	beq $t0,2,parte2
+	move $t8,$a0
 	
 	#imprime mensaje de entrada sec-num
 	printMsj(entrada2)
@@ -69,6 +70,13 @@
 	separacion
 	
 	parte2:
+	move $t9,$a0
+	separacion
+	li $v0,1
+	addi $a0,$t8,0
+	separacion
+	li $v0,1
+	addi $a0,$t9,0
 	separacion
 	#imprime mensaje de pri-num
 	printMsj(msj1)
@@ -109,8 +117,6 @@
 		#imprime msj
 		printMsj(msjMulti)
 	final:
-		
-	
 		separacion
 	
 		#imprime resultado
