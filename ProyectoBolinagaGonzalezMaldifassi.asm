@@ -1,7 +1,7 @@
 .data
 	separador: .asciiz "\n-------------------------------------------------------------------------------------------------------------------\n"
 	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!"
-	menu: .asciiz "Seleccione (Ingrese el número: \n1.Suma\n2.Resta\n3.Multiplicación\n"
+	menu: .asciiz "Seleccione (Ingrese el número): \n1.Suma\n2.Resta\n3.Multiplicación\n"
 	msjSuma: .asciiz "\nSuma\n"
 	msjResta: .asciiz "\nResta\n"
 	msjMulti: .asciiz "\nMultiplicación\n"
