@@ -1,7 +1,7 @@
 .data
 	separador: .asciiz "\n-------------------------------------------------------------------------------------------------------------------\n"
-	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!\n"
-	menu: .asciiz "Seleccione: \n1.Suma\n2.Resta\n3.Multiplicación\n"
+	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!"
+	menu: .asciiz "Seleccione (Ingrese el número: \n1.Suma\n2.Resta\n3.Multiplicación\n"
 	msjSuma: .asciiz "\nSuma\n"
 	msjResta: .asciiz "\nResta\n"
 	msjMulti: .asciiz "\nMultiplicación\n"
@@ -36,11 +36,10 @@
 	#Recibir seleccion
 	li $v0,5
 	syscall 
-	
-	move $t0,$v0
-	beq $t0,1,suma
-	beq $t0,2,resta
-	beq $t0,3,multi
+
+	beq $v0,1,suma
+	beq $v0,2,resta
+	beq $v0,3,multi
 	
 	suma:
 		#imprime msj
