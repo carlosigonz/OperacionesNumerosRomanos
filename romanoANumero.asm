@@ -120,6 +120,4 @@
     salir:      
         li $v0, 4 
         la $a0, mensajeSalida
-        syscall 
-        li $v0, 10 
-        syscall 
+        syscall
