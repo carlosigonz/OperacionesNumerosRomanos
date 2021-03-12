@@ -60,6 +60,13 @@
 	#imprime el sec-num
 	printMsj(numero2)
 	
+	#loop iterativo
+	li $t0,0
+	li $t1,0
+	li $t2,0
+	#len1: 
+	#	lb $t3,numero1($t0)
+	
 	#imprime menu
 	printMsj(menu)
 	
