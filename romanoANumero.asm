@@ -7,7 +7,7 @@
     	mostrarInput:
         	la $a0, mensajeEntrada 
         	li $v0, 4 
-        	syscall 
+        	syscall
                 
         getInput:
         	la $a0, input 
@@ -21,7 +21,7 @@
         getTamanoInput:
         	addu $s1, $s0, $s3 
         	lbu $a0, 0($s1) 
-        	bne $a0, $0, incrementar 
+        	bnez $a0, incrementar 
        	 	j recorrerInput 
         
         incrementar:
@@ -33,10 +33,10 @@
                 lbu $t2, 0($s1) 
                 addi $t1, $0, 48 	
                 move $s6, $t1 
-                bne $t2, $t1, mapLetras 
+                bne $t2, $t1, tablaLetras 
                 j salir 
 
-        mapLetras:
+        tablaLetras:
         	add $s2, $0, $0
             	serieSesenta:
                 	bge $s6, 70, serieSetenta 
@@ -58,23 +58,9 @@
                         beq $t2, $t1, conversionACinco 
                         li $t1, 88 
                         beq $t2, $t1, conversionADiez 
-                serieNoventa:
-                    	bge $s6, 100, serieCien  
+                serieNoventa: 
                     	li $t1, 99 
-                        beq $t2, $t1, conversionACien 
-                serieCien:
-                    	li $t1, 100 
-                        beq $t2, $t1, conversionAQuinientos 
-                        li $t1, 105 
-                        beq $t2, $t1, conversionToOneHandler 
-                        li $t1, 108 
-                        beq $t2, $t1, conversionACincuenta 
-                        li $t1, 109 
-                        beq $t2, $t1, conversionAMil 
-                        li $t1, 118 
-                        beq $t2, $t1, conversionACinco 
-                        li $t1, 120 
-                   	beq $t2, $t1, conversionADiez 
+                        beq $t2, $t1, conversionACien
                 addi $s4, $0, 0   
                 jal continuar 
                 j recorrerInput
@@ -129,8 +115,7 @@
     imprimir:     
     	move $a0, $s7 
         li $v0, 1 
-        syscall 
-        j main 
+        syscall
 
     salir:      
         li $v0, 4 

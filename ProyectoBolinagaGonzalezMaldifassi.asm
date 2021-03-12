@@ -64,41 +64,7 @@
 	
 	#imprime el sec-num
 	printMsj(numero2)
-	
-	#loop iterativo
-	la $t0,numero1
-	len1: 
-		lb $t2 0($t0)
-		beq $t2 $zero finLen1
-		addi $t0,$t0,1
-		j len1
-	finLen1:
-		la $t2, numero1
-		sub $t1,$t0,$t2 #$t1 ahora tiene la longitud del primer numero
-	
-	la $t5,numero2
-	len2:
-		lb $t4 0($t5)
-		beq $t4 $zero finLen2
-		addi $t5,$t5,1
-		j len2
-	finLen2:
-		la $t4, numero1
-		sub $t3,$t5,$t4 #$t3 ahora tiene la longitud del primer numero
-		
-	#Eliminar luego de comprobar longitudes
-	printMsj(long1)
-	
-	li $v0,1
-	addi $a0,$t1,-1
-	syscall
-	
-	printMsj(long2)
-	
-	li $v0,1
-	addi $a0,$t3,-1
-	syscall
-	#Eliminar end
+
 	
 	#imprime menu
 	printMsj(menu)
@@ -115,7 +81,7 @@
 	suma:
 		#imprime msj
 		printMsj(msjSuma)
-		addi $t7,  
+		#addi $t7,  
 		b final
 		
 	resta:
