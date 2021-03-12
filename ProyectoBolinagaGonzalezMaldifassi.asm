@@ -115,6 +115,7 @@
 	suma:
 		#imprime msj
 		printMsj(msjSuma)
+		addi $t7,  
 		b final
 		
 	resta:
