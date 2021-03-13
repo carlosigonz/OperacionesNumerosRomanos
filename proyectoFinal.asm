@@ -2,7 +2,8 @@
 	#Separador
 	separador: .asciiz "\n-------------------------------------------------------------------------------------------------------------------\n"
 	#mensajes
-	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!"
+	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!\n"
+	autores: .asciiz "Realizado por Nicolas Bolinaga, Carlos González y Felix Maldifassi."
 	menu: .asciiz "\nSeleccione operación (Ingrese el número): \n1.Suma (A+B)\n2.Resta (A-B)\n3.Multiplicación (A*B)\n"
 	msjSuma: .asciiz "\nSuma\n"
 	msjResta: .asciiz "\nResta\n"
@@ -184,6 +185,7 @@
 .text
 	#imprime saludo
 	printMsj(saludo)
+	printMsj(autores)
 	separacion
 	
 	#imprime mensaje de entrada pri-num
