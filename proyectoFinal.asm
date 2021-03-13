@@ -1,9 +1,26 @@
 .data
+	#Letras Romanas
+	letram: .asciiz "M"
+	letracm: .asciiz "CM"
+	letrad: .asciiz "D"
+	letracd: .asciiz "CD"
+	letrac: .asciiz "C"
+	letraxc: .asciiz "XC"
+	letral: .asciiz "L"
+	letraxl: .asciiz "XL"
+	letrax: .asciiz "X"
+	letraix: .asciiz "IX"
+	letrav: .asciiz "V"
+	letraiv: .asciiz "IV"
+	letrai: .asciiz "I"
+	nada: .asciiz  "NADA"
+	negativo: .asciiz "-"
+	
 	#Separador
 	separador: .asciiz "\n-------------------------------------------------------------------------------------------------------------------\n"
+	
 	#mensajes
-	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!\n"
-	autores: .asciiz "Realizado por Nicolas Bolinaga, Carlos González y Felix Maldifassi."
+	saludo: .asciiz  "Bienvenido a operaciones aritméticas con números romanos!"
 	menu: .asciiz "\nSeleccione operación (Ingrese el número): \n1.Suma (A+B)\n2.Resta (A-B)\n3.Multiplicación (A*B)\n"
 	msjSuma: .asciiz "\nSuma\n"
 	msjResta: .asciiz "\nResta\n"
@@ -13,25 +30,13 @@
 	msj1: .asciiz "\nEl primer número (A) es: "
 	msj2: .asciiz "\nEl segundo número (B) es: "
 	resultado: .asciiz "El resultado de la operación es: "
+	
 	#Numeros Romanos
-	input: .word 64
+	input: .word 32
+	
 	#Numeros Enteros
 	entero1: .word 
 	entero2: .word
-	#Letras Romanas
-	letraM: .asciiz "M"
-	letraCM: .asciiz "CM"
-	letraD: .asciiz "D"
-	letraCD: .asciiz "CD"
-	letraC: .asciiz "C"
-	letraXC: .asciiz "XC"
-	letraL: .asciiz "L"
-	letraXL: .asciiz "XL"
-	letraX: .asciiz "X"
-	letraIX: .asciiz "IX"
-	letraV: .asciiz "V"
-	letraIV: .asciiz "IV"
-	letraI: .asciiz "I"
 	
 	#separacion
 	.macro separacion
@@ -42,8 +47,8 @@
 	
 	#imprimir mensajes
 	.macro printMsj(%label)
-	li $v0,4
 	la $a0,%label
+	li $v0,4
 	syscall
 	.end_macro
 	
@@ -185,7 +190,6 @@
 .text
 	#imprime saludo
 	printMsj(saludo)
-	printMsj(autores)
 	separacion
 	
 	#imprime mensaje de entrada pri-num
@@ -218,7 +222,6 @@
 	#imprime el sec-num
 	printNum($t9)
 
-	
 	#imprime menu
 	printMsj(menu)
 	
@@ -230,7 +233,6 @@
 	beq $v0,2,resta
 	beq $v0,3,multi
 	
-	
 	suma:
 		#imprime msj
 		printMsj(msjSuma)
@@ -238,6 +240,7 @@
 		add $a1, $t8, $t9  
 		#imprime resultado
 		printMsj(resultado)
+		beqz $a1 NADA
 		b reconvertirNumero
 	resta:
 		#imprime msj
@@ -245,6 +248,7 @@
 		sub $a1, $t8, $t9  
 		#imprime resultado
 		printMsj(resultado)
+		beqz $a1 NADA
 		b reconvertirNumero
 	multi:
 		#imprime msj
@@ -252,6 +256,7 @@
 		mul  $a1, $t8, $t9
 		#imprime resultado
 		printMsj(resultado)
+		beqz $a1 NADA
 		b reconvertirNumero
 	final:
 		separacion
@@ -259,92 +264,83 @@
 		li $v0,10
 		syscall
 		
-
 reconvertirNumero:
-		bgt $a1, 999, M
-		bgt $a1, 899, CM
-		bgt $a1, 499, D
-		bgt $a1, 399, CD
-		bgt $a1, 99, C
-		bgt $a1, 89, XC
-		bgt $a1, 49, L
-		bgt $a1, 39, XL
-		bgt $a1, 9, X
-		bgt $a1, 8, IX
-		bgt $a1, 4, V
-		bgt $a1, 3, IV
-		bgt $a1, 0, I
+		bltz $a1, Negativo
+		bgt $a1, 999, M 	# Si es mayor a 999 es mil por ende colocamos una M y restamos 1000 del numero original
+		bgt $a1, 899, CM	# Si es mayor a 899 es novecientos por ende colocamos una CM y restamos 900 del numero original
+		bgt $a1, 499, D		# Quinientos - D - restamos 500
+		bgt $a1, 399, CD	# Cuatrocientos - CD - restamos 400
+		bgt $a1, 99, C		# Cien - C - restamos 100
+		bgt $a1, 89, XC		# y asi sucesivamente...
+		bgt $a1, 49, L		# .
+		bgt $a1, 39, XL		# .
+		bgt $a1, 9, X		# .
+		bgt $a1, 8, IX		# .
+		bgt $a1, 4, V		# .
+		bgt $a1, 3, IV		# .
+		bgt $a1, 0, I		# Hasta que ya no queden numeros por restar
 		
 		j final
-        	
+        
+        # aqui suceden las restas de cada letra segun sea el caso 
 	M:
-		sub $a1, $a1, 1000
-		la $t1, letraM
-		jal concatenation
+		sub $a1, $a1, 1000	
+		printMsj(letram)
     		j reconvertirNumero
 	CM:
 		sub $a1, $a1, 900
-		la $t1, letraCM
-		jal concatenation
+		printMsj(letracm)
 		j reconvertirNumero
 	D:
 		sub $a1, $a1, 500
-		la $t1, letraD
-		jal concatenation
+		printMsj(letrad)
 		j reconvertirNumero
 	CD:
 		sub $a1, $a1, 400
-		la $t1, letraCD
-		jal concatenation
+		printMsj(letracd)
 		j reconvertirNumero
 	C:
 		sub $a1, $a1, 100
-		la $t1, letraC
-		jal concatenation
+		printMsj(letrac)
 		j reconvertirNumero
 	XC:
 		sub $a1, $a1, 90
-		la $t1, letraXC
-		jal concatenation
+		printMsj(letraxc)
 		j reconvertirNumero
 	L:
 		sub $a1, $a1, 50
-		la $t1, letraL
-		jal concatenation
+		printMsj(letral)
 		j reconvertirNumero
 	XL:
 		sub $a1, $a1, 40
-		la $t1, letraXL
-		jal concatenation
+		printMsj(letraxl)
 		j reconvertirNumero
 	X:
 		sub $a1, $a1, 10
-		la $t1, letraX
-		jal concatenation
+		printMsj(letrax)
 		j reconvertirNumero
 	IX:
 		sub $a1, $a1, 9
-		la $t1, letraIX
-		jal concatenation
+		printMsj(letraix)
 		j reconvertirNumero
 	V:
 		sub $a1, $a1, 5
-		la $t1, letraV
-		jal concatenation
+		printMsj(letrav)
 		j reconvertirNumero
 	IV:
 		sub $a1, $a1, 4
-		la $t1, letraIV
-		jal concatenation
+		printMsj(letraiv)
 		j reconvertirNumero
 	I:
 		sub $a1, $a1, 1
-		la $t1, letraI
-		jal concatenation
+		printMsj(letrai)
 		j reconvertirNumero
-	
-	concatenation:
-		la $a0, ($t1) 
-        	li $v0, 4 
-        	syscall 
-		jr $ra
+		
+	NADA:
+		printMsj(nada)
+		j final
+		
+	Negativo:
+		abs $a1, $a1
+		printMsj(negativo)
+		j reconvertirNumero
