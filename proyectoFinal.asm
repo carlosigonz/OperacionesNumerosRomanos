@@ -74,25 +74,26 @@
          convertNum:
  		add $s7, $0, $0 
         	li $s3, 0 
+ 		#Recorre la cadena para obterner el tamaño
  		getTamanoInput:
         		addu $s1, $s0, $s3 
         		lbu $a0, 0($s1) 
         		bne $a0, $0, incrementar 
        	 		j recorrerInput 
-        
+        	#Incrementa la iteración del loop
         	incrementar:
         		addi $s3, $s3, 1 
         		j getTamanoInput 
-
+		#Recorre cada letra para identificarla con la tabla de ASCII
         	recorrerInput:  
         		addu $s1, $s0, $s3 
                 	lbu $t2, 0($s1) 
                 	addi $t1, $0, 48 	
                 	move $s6, $t1 
-                	bne $t2, $t1, mapLetras 
+                	bne $t2, $t1, tablaLetras 
                 	j final
-
-        	mapLetras:
+		#Ubica el valor de cada letra para convertirlo
+        	tablaLetras:
         		add $s2, $0, $0
             		serieSesenta:
                 		bge $s6, 70, serieSetenta 
@@ -135,7 +136,7 @@
                 	jal continuar 
                 	j recorrerInput
         
-    
+    		#De acuerdo a cada valor, se asigna el número al registro
         	conversion:
             		conversionAMil:   
                 		addi $s2, $0, 1000 
@@ -166,7 +167,8 @@
                         	jal prefijo
                         	j recorrerInput
 
-
+	#Permite sumar o restar valores cuando sea necesario de acuerdo en la manera que están
+	#escritos los números romános
     	prefijo:
         	adicion:       
         		blt $s2, $s4, substraccion 
@@ -175,13 +177,13 @@
         	substraccion:   
         		sub $s7, $s7, $s2 
             		j continuar 
-            
+        #Condición para continuar el programa    
     	continuar:
     		beq $s3, $0, imprimir 
         	addi $s3, $s3, -1 
         	move $s4, $s2 
         	jr $ra 
-            
+        #Imprime el número convertido    
     	imprimir:     
     		move $a0, $s7 
         	li $v0, 1 
